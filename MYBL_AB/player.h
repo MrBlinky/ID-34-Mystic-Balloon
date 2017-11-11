@@ -264,8 +264,8 @@ void updateCamera()
 
   vec2 V;
   //vec2 V = (kid.pos - cam.pos + cam.offset) >> 3; // more bytes
-  V.x = kid.pos.x - cp.x - 58;
-  V.y = kid.pos.y - cp.y - 24;
+  V.x = kid.pos.x - cp.x - 58 + (HEIGHT / 2 - 32);
+  V.y = kid.pos.y - cp.y - 24 - (HEIGHT / 2 - 32);
   V = V >> 3;
 
   cam.pos += V;
@@ -280,7 +280,7 @@ void drawKid()
     kidcam.x = kid.pos.x - cam.pos.x;
     kidcam.y = kid.pos.y - cam.pos.y;
     // Fall off earth
-    if (kidcam.y > 64 + (CAMERA_OFFSET * 3))
+    if (kidcam.y > HEIGHT + (CAMERA_OFFSET * 3))
     {
       kid.actualpos = startPos;
       kidHurt();

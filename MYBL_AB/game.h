@@ -100,8 +100,8 @@ void stateGameNextLevel()
   //{
   if (level < TOTAL_LEVELS)
   {
-    sprites.drawSelfMasked(35, 4, badgeNextLevel, 0);
-    drawNumbers(78, 13, FONT_BIG, DATA_LEVEL);
+    sprites.drawSelfMasked(35 - (64 - WIDTH / 2), 4, badgeNextLevel, 0);
+    drawNumbers(78 - (64 - WIDTH / 2), 13, FONT_BIG, DATA_LEVEL);
   }
   else
   {
@@ -109,7 +109,7 @@ void stateGameNextLevel()
     // Score remains after completing game? (no)
     EEPROM.put(EEPROM_STORAGE_SPACE_START + EEPROM_MYSTIC_START + OFFSET_SCORE, (unsigned long)0);
   }
-  drawNumbers(43, 49, FONT_BIG, DATA_SCORE);
+  drawNumbers(43 - (64 - WIDTH / 2), 49 + (HEIGHT / 2 - 32), FONT_BIG, DATA_SCORE);
   //}
 
   if (scoreIsVisible)
@@ -118,15 +118,15 @@ void stateGameNextLevel()
 
     for (byte i = 0; i < totalBadges; ++i)
     {
-      if (i < coinsCollected) sprites.drawOverwrite(65 - (7 * totalBadges) + (i * 14), 27, badgeElements, 0);
-      else sprites.drawOverwrite(65 - (7 * totalBadges) + (i * 14), 27, badgeElements, 1);
+      if (i < coinsCollected) sprites.drawOverwrite(65  - (64 - WIDTH / 2) - (7 * totalBadges) + (i * 14), 27 + (HEIGHT / 4 - 16), badgeElements, 0);
+      else sprites.drawOverwrite(65 - (64 - WIDTH / 2) - (7 * totalBadges) + (i * 14), 27 + (HEIGHT / 4 - 16), badgeElements, 1);
     }
   }
 
   if (canPressButton)
   {
 
-    if (pressKeyIsVisible) sprites.drawOverwrite(38, 29, badgePressKey, 0);
+    if (pressKeyIsVisible) sprites.drawOverwrite(38 - (64 - WIDTH / 2), 29 + (HEIGHT / 4 - 16), badgePressKey, 0);
     if (arduboy.justPressed(A_BUTTON | B_BUTTON))
     {
       toneindex = 0;
@@ -161,7 +161,7 @@ void stateGamePlaying()
 
 void stateGamePause()
 {
-  sprites.drawSelfMasked(47, 17, badgePause, 0);
+  sprites.drawSelfMasked(47 - (64 - WIDTH / 2), 17 + (HEIGHT / 2 - 32), badgePause, 0);
   if (arduboy.justPressed(A_BUTTON | B_BUTTON))
   {
     gameState = STATE_GAME_PLAYING;
@@ -174,11 +174,11 @@ void stateGameOver()
   byte x = 35 + 12;
   if (level < TOTAL_LEVELS)
   {
-    drawNumbers(78, 26, FONT_BIG, DATA_LEVEL);
+    drawNumbers(78 - (64 - WIDTH / 2), 26, FONT_BIG, DATA_LEVEL);
     x -= 12;
   }
-  sprites.drawSelfMasked(x, 17, badgeGameOver, 0);
-  drawNumbers(43, 49, FONT_BIG, DATA_SCORE);
+  sprites.drawSelfMasked(x  - (64 - WIDTH / 2), 17, badgeGameOver, 0);
+  drawNumbers(43 - (64 - WIDTH / 2), 49, FONT_BIG, DATA_SCORE);
 
   unsigned long highscore = 0;
   EEPROM.get(EEPROM_STORAGE_SPACE_START + EEPROM_MYSTIC_START + OFFSET_HSCORE, highscore);

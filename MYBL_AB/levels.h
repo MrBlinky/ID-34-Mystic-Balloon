@@ -711,8 +711,11 @@ bool gridGetSolid(int8_t x, int8_t y) {
   if (x < 0 || x >= LEVEL_WIDTH_CELLS)
     return 1;
 
-  if (y < 0 || y >= LEVEL_HEIGHT_CELLS)
+  if (y < 0)
     return 0;
+
+  if (y >= LEVEL_HEIGHT_CELLS) 
+    y = LEVEL_HEIGHT_CELLS - 1; //duplicate bottom row to prevent under bottom tile sailing
 
   const uint8_t *lvl = levels[level];
   byte b = pgm_read_byte(lvl + (x >> 3) + (y * (LEVEL_WIDTH_CELLS >> 3)));
@@ -823,9 +826,9 @@ void levelLoad(const uint8_t *lvl) {
 
 void drawGrid() {
   //Serial.println("Start of tile drawing");
-  for ( int x = (cam.pos.x >> 4); x <= (cam.pos.x >> 4) + 8; ++x)
+  for ( int x = (cam.pos.x >> 4); x <= (cam.pos.x >> 4) + (WIDTH / 16); ++x)
   {
-    for ( int y = (cam.pos.y >> 4); y <= (cam.pos.y >> 4) + 4; ++y) {
+    for ( int y = (cam.pos.y >> 4); y <= (cam.pos.y >> 4) + (HEIGHT / 16); ++y) {
       //if (x >= 0 && x < LEVEL_WIDTH
       //&& y >= 0 && y < LEVEL_HEIGHT)
       {
@@ -1024,14 +1027,22 @@ void checkCollisions()
 
 void drawHUD()
 {
-  for (byte i = 0; i < 16; i++)
+  for (byte i = 0; i < WIDTH; i++)
   {
-    sprites.drawSelfMasked(i * 8, 0, smallMask, 0);
+    arduboy.sBuffer[i] = 0xFF;
   }
   drawBalloonLives();
+  #if WIDTH == 96
+  drawNumbers(91 - 31, 0, FONT_SMALL, DATA_SCORE);
+  #else
   drawNumbers(91, 0, FONT_SMALL, DATA_SCORE);
+  #endif
   //if (coinsCollected < 6 || walkerFrame == 0)
   drawCoinHUD();
+  #if WIDTH == 96
+  if (key.haveKey) sprites.drawOverwrite(28 - 10, 0, elementsHUD, 13);
+  #else
   if (key.haveKey) sprites.drawOverwrite(28, 0, elementsHUD, 13);
+  #endif
 }
 #endif

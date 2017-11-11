@@ -16,7 +16,11 @@ void drawBalloonLives()
 {
   for (byte i = 0; i < kid.balloons; ++i)
   {
+    #if WIDTH == 96
+    sprites.drawOverwrite((i * 6), 0, elementsHUD, 10);
+    #else
     sprites.drawOverwrite((i * 7) + 2, 0, elementsHUD, 10);
+    #endif
   }
 }
 
@@ -25,9 +29,9 @@ void drawCoinHUD()
   for (byte i = 0; i < MAX_PER_TYPE; ++i)
   {
     if (i >= MAX_PER_TYPE - coinsActive)
-      sprites.drawOverwrite(40 + (i * 6), 0, elementsHUD, 11);
+      sprites.drawOverwrite(40 - (64 - WIDTH / 2) + (i * 6), 0, elementsHUD, 11);
     else
-      sprites.drawOverwrite(40 + (i * 6), 0, elementsHUD, 12);
+      sprites.drawOverwrite(40 - (64 - WIDTH / 2) + (i * 6), 0, elementsHUD, 12);
   }
 }
 
