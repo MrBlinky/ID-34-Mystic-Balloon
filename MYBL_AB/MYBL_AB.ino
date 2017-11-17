@@ -54,8 +54,8 @@ void loop() {
   if (!(arduboy.nextFrame())) return;
   if (gameState < STATE_GAME_NEXT_LEVEL && arduboy.everyXFrames(10))sparkleFrames = (++sparkleFrames) % 5;
   arduboy.pollButtons();
-  arduboy.clear();
+  //arduboy.clear(); //faster clear by using display(true) below
   ((FunctionPointer) pgm_read_word (&mainGameLoop[gameState]))();
-  arduboy.display();
+  arduboy.display(true);
 }
 
