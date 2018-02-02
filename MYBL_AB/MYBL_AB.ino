@@ -22,7 +22,7 @@
 #include "enemies.h"
 #include "elements.h"
 #include "levels.h"
-
+#include "src/autopowerdown.h"
 
 typedef void (*FunctionPointer) ();
 
@@ -48,13 +48,14 @@ void setup()
   arduboy.bootLogoSpritesSelfMasked();
   arduboy.setFrameRate(60);                                 // set the frame rate of the game at 60 fps
   loadSetEEPROM();
+  autoPowerDownReset();
 }
 
 void loop() {
   if (!(arduboy.nextFrame())) return;
+  autoPowerDown();
   if (gameState < STATE_GAME_NEXT_LEVEL && arduboy.everyXFrames(10))sparkleFrames = (++sparkleFrames) % 5;
   arduboy.pollButtons();
-  //arduboy.clear(); //faster clear by using display(true) below
   ((FunctionPointer) pgm_read_word (&mainGameLoop[gameState]))();
   arduboy.display(true);
 }

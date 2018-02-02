@@ -118,8 +118,13 @@ void stateGameNextLevel()
 
     for (byte i = 0; i < totalBadges; ++i)
     {
+    //#if WIDTH == 96
+    //  if (i < coinsCollected) sprites.drawOverwrite(49  - (7 * coinsCollected) + (i * 14), 27, badgeElements, 0);
+    //  else sprites.drawOverwrite(49 - (7 * balloonsLeft) + ((i - coinsCollected) * 14), 27 + 18), badgeElements, 1);
+    //#else  
       if (i < coinsCollected) sprites.drawOverwrite(65  - (64 - WIDTH / 2) - (7 * totalBadges) + (i * 14), 27 + (HEIGHT / 4 - 16), badgeElements, 0);
       else sprites.drawOverwrite(65 - (64 - WIDTH / 2) - (7 * totalBadges) + (i * 14), 27 + (HEIGHT / 4 - 16), badgeElements, 1);
+    //#endif
     }
   }
 
