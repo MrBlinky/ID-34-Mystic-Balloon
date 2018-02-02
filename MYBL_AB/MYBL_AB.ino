@@ -48,7 +48,6 @@ void setup()
   arduboy.bootLogoSpritesSelfMasked();
   arduboy.setFrameRate(60);                                 // set the frame rate of the game at 60 fps
   loadSetEEPROM();
-  autoPowerDownReset();
 }
 
 void loop() {
@@ -59,4 +58,3 @@ void loop() {
   ((FunctionPointer) pgm_read_word (&mainGameLoop[gameState]))();
   arduboy.display(true);
 }
-
